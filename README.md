@@ -2,7 +2,7 @@
 
 A file type classifier based on Detect-It-East [DIE](https://github.com/horsicq/Detect-It-Easy). 
 
-Module's only goal is to attache _DIE signatures_, as tags, to samples submitted to [mwdb-core](https://github.com/CERT-Polska/mwdb-core)
+Module's only goal is to attach _DIE signatures_, as tags, to samples submitted to [mwdb-core](https://github.com/CERT-Polska/mwdb-core)
 
 ## Consumes
 
