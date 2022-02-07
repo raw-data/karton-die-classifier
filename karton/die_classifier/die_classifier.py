@@ -63,6 +63,9 @@ class DieClassifier(Karton):
 
         formatted_string = ""
         for field in list(fields_to_extract):
+            if not entry.get(field, None):
+                continue
+
             if (
                 "zip" in entry["name"].lower()
                 and field == "options"
@@ -126,9 +129,10 @@ class DieClassifier(Karton):
             }
 
             for entry in diec_res_json["detects"]:
-                for field, result in diec_mapping.items():
-                    if entry.get("type") == field:
-                        diec_mapping[field] = self._format_sign(entry)
+                for value in entry["values"]:
+                    for field, result in diec_mapping.items():
+                        if value.get("type", "").lower() == field:
+                            diec_mapping[field] = _format_sign(value)
 
             signature_matches = list()
             for field, result in diec_mapping.items():
