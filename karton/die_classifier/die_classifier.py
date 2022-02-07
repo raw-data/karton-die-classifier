@@ -132,7 +132,7 @@ class DieClassifier(Karton):
                 for value in entry["values"]:
                     for field, result in diec_mapping.items():
                         if value.get("type", "").lower() == field:
-                            diec_mapping[field] = _format_sign(value)
+                            diec_mapping[field] = self._format_sign(value)
 
             signature_matches = list()
             for field, result in diec_mapping.items():
