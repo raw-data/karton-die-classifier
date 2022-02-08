@@ -52,7 +52,7 @@ class DieClassifier(Karton):
         fields_to_extract = {
             "name": None,
             "version": None,
-            "options": None,
+            "info": None,
         }
 
         patterns_sting = {
@@ -65,18 +65,18 @@ class DieClassifier(Karton):
         for field in list(fields_to_extract):
             if (
                 "zip" in entry["name"].lower()
-                and field == "options"
-                and "encrypted" not in entry["options"].lower()
+                and field == "info"
+                and "encrypted" not in entry.get("info", "").lower()
             ):
                 continue
 
             elif (
                 "zip" in entry["name"].lower()
-                and "encrypt" in entry["options"].lower()
+                and "encrypt" in entry.get("info", "").lower()
             ):
-                entry["options"] = "encrypted"
+                entry["info"] = "encrypted"
 
-            if len(entry[field]) != 0:
+            if len(entry.get(field, "")) != 0:
                 formatted_string += (
                     replace(patterns_sting, entry[field]) + "_"
                 )
@@ -125,10 +125,11 @@ class DieClassifier(Karton):
                 "packer": None,
             }
 
-            for entry in diec_res_json["detects"]:
-                for field, result in diec_mapping.items():
-                    if entry.get("type") == field:
-                        diec_mapping[field] = self._format_sign(entry)
+            for detect in diec_res_json["detects"]:
+                for entry in detect["values"]:
+                    for field, result in diec_mapping.items():
+                        if entry.get("type", "").lower() == field:
+                            diec_mapping[field] = self._format_sign(entry)
 
             signature_matches = list()
             for field, result in diec_mapping.items():
