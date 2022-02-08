@@ -69,13 +69,13 @@ class DieClassifier(Karton):
             if (
                 "zip" in entry["name"].lower()
                 and field == "options"
-                and "encrypted" not in entry["options"].lower()
+                and "encrypted" not in entry.get("options", "").lower()
             ):
                 continue
 
             elif (
                 "zip" in entry["name"].lower()
-                and "encrypt" in entry["options"].lower()
+                and "encrypt" in entry.get("options", "").lower()
             ):
                 entry["options"] = "encrypted"
 
@@ -128,11 +128,11 @@ class DieClassifier(Karton):
                 "packer": None,
             }
 
-            for entry in diec_res_json["detects"]:
-                for value in entry["values"]:
+            for detect in diec_res_json["detects"]:
+                for entry in detect["values"]:
                     for field, result in diec_mapping.items():
-                        if value.get("type", "").lower() == field:
-                            diec_mapping[field] = self._format_sign(value)
+                        if entry.get("type", "").lower() == field:
+                            diec_mapping[field] = self._format_sign(entry)
 
             signature_matches = list()
             for field, result in diec_mapping.items():
