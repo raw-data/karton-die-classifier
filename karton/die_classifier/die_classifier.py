@@ -63,9 +63,6 @@ class DieClassifier(Karton):
 
         formatted_string = ""
         for field in list(fields_to_extract):
-            if not entry.get(field, None):
-                continue
-
             if (
                 "zip" in entry["name"].lower()
                 and field == "options"
@@ -79,7 +76,7 @@ class DieClassifier(Karton):
             ):
                 entry["options"] = "encrypted"
 
-            if len(entry[field]) != 0:
+            if len(entry.get(field, "")) != 0:
                 formatted_string += (
                     replace(patterns_sting, entry[field]) + "_"
                 )
