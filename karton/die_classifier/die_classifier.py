@@ -52,7 +52,7 @@ class DieClassifier(Karton):
         fields_to_extract = {
             "name": None,
             "version": None,
-            "options": None,
+            "info": None,
         }
 
         patterns_sting = {
@@ -65,16 +65,16 @@ class DieClassifier(Karton):
         for field in list(fields_to_extract):
             if (
                 "zip" in entry["name"].lower()
-                and field == "options"
-                and "encrypted" not in entry.get("options", "").lower()
+                and field == "info"
+                and "encrypted" not in entry.get("info", "").lower()
             ):
                 continue
 
             elif (
                 "zip" in entry["name"].lower()
-                and "encrypt" in entry.get("options", "").lower()
+                and "encrypt" in entry.get("info", "").lower()
             ):
-                entry["options"] = "encrypted"
+                entry["info"] = "encrypted"
 
             if len(entry.get(field, "")) != 0:
                 formatted_string += (
