@@ -126,6 +126,10 @@ class DieClassifier(Karton):
             }
 
             for detect in diec_res_json["detects"]:
+                try: 
+                    detect["values"]
+                except:
+                    detect["values"] = [detect]
                 for entry in detect["values"]:
                     for field, result in diec_mapping.items():
                         if entry.get("type", "").lower() == field:
